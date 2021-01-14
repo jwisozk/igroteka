@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Igroteka</string>
     <string name="hint_search_query">Enter search query…</string>
+    <string name="content_game_poster">Game poster</string>
+    <string name="content_game_title">Cossacks: Back to War</string>
+    <string name="content_game_release_date">Release date:</string>
+    <string name="content_game_date">May 23, 2020</string>
 </resources>

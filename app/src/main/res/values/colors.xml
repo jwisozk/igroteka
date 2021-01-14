@@ -9,6 +9,8 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="mainColorBackground">#FF131313</color>
+    <color name="statusBarColorBackground">#FF131313</color>
+    <color name="accentColor">#FF202020</color>
     <color name="textColorSecondary">#94000000</color>
 
 </resources>
