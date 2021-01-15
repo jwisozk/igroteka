@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="150dp"
+    android:layout_height="250dp"
+    app:cardBackgroundColor="@color/accentColor"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/gameThumbnail"
+            android:layout_width="150dp"
+            android:layout_height="180dp"
+            android:contentDescription="@string/content_game_poster"
+            android:scaleType="centerCrop"
+            android:background="@drawable/round_outline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:src="@drawable/game_sample" />
+
+        <LinearLayout
+            android:id="@+id/platformsLogos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gameThumbnail">
+
+            <ImageView
+                android:id="@+id/windows_logo"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="@string/windows_logo"
+                app:srcCompat="@drawable/ic_windows_logo" />
+
+            <ImageView
+                android:id="@+id/playstation_logo"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="@string/playstation_logo"
+                app:srcCompat="@drawable/ic_playstation_logo" />
+
+            <ImageView
+                android:id="@+id/xbox_logo"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="@string/xbox_logo"
+                app:srcCompat="@drawable/ic_xbox_logo" />
+
+            <ImageView
+                android:id="@+id/android_logo"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="@string/android_logo"
+                app:srcCompat="@drawable/ic_android_logo" />
+
+            <ImageView
+                android:id="@+id/apple_logo"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="@string/apple_logo"
+                app:srcCompat="@drawable/ic_apple_logo" />
+
+            <ImageView
+                android:id="@+id/nintendo_switch_logo"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="@string/nintendo_switch_logo"
+                app:srcCompat="@drawable/ic_nintendo_switch_logo" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/gameName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:paddingHorizontal="8dp"
+            android:text="@string/content_game_title"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/platformsLogos" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

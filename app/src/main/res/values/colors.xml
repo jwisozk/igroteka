@@ -8,8 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="mainColorBackground">#FF131313</color>
-    <color name="statusBarColorBackground">#FF131313</color>
+    <color name="mainColorBackground">#FF172B37</color>
+    <color name="statusBarColorBackground">#FF172B37</color>
     <color name="accentColor">#FF202020</color>
     <color name="textColorSecondary">#94000000</color>
 

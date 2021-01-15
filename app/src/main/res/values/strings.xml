@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">Igroteka</string>
-    <string name="hint_search_query">Enter search query…</string>
+    <string name="hint_search_query">Search 491,352 games</string>
     <string name="content_game_poster">Game poster</string>
     <string name="content_game_title">Cossacks: Back to War</string>
     <string name="content_game_release_date">Release date:</string>
     <string name="content_game_date">May 23, 2020</string>
+
+    <string name="windows_logo">Windows logo</string>
+    <string name="playstation_logo">Playstation logo</string>
+    <string name="xbox_logo">Xbox logo</string>
+    <string name="android_logo">Android logo</string>
+    <string name="apple_logo">Apple logo</string>
+    <string name="nintendo_switch_logo">Nintendo switch logo</string>
 </resources>
