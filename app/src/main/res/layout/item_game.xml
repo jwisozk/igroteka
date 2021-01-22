@@ -17,12 +17,11 @@
             android:layout_height="180dp"
             android:contentDescription="@string/content_game_poster"
             android:scaleType="centerCrop"
-            android:background="@drawable/round_outline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            android:src="@drawable/game_sample" />
+            tools:src="@drawable/ph_game" />
 
         <LinearLayout
             android:id="@+id/platformsLogos"

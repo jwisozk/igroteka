@@ -2,11 +2,10 @@ package com.jwisozk.igroteka
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import com.jwisozk.igroteka.util.KeyboardResetByClickOutside
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val keyboardResetByClickOutside = KeyboardResetByClickOutside()

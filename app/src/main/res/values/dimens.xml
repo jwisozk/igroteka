@@ -2,4 +2,5 @@
 <resources>
     <dimen name="cornerRadius">10dp</dimen>
     <dimen name="itemsDist">19dp</dimen>
+    <dimen name="gameThumbnailPadding">40dp</dimen>
 </resources>

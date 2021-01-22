@@ -4,6 +4,7 @@ import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.res.Configuration
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -29,6 +30,7 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
 
     private fun init(view: View) {
         binding = FragmentGamesBinding.bind(view)
+        Log.d("debug", "gamesAdapter: 1")
         binding?.gamesList?.apply {
             val spanCount =
                 // Set span count depending on layout
@@ -37,7 +39,9 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                     else -> 2
                 }
             layoutManager = GridLayoutManager(activity, spanCount)
+            Log.d("debug", "gamesAdapter: 2")
             val gamesAdapter = GamesAdapter {
+                Log.d("debug", "MoviesAdapter: ${it.name}")
                 viewModel.onGameAction(it)
             }
             adapter = gamesAdapter

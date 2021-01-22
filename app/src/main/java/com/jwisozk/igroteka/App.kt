@@ -1,7 +1,8 @@
 package com.jwisozk.igroteka
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.jwisozk.igroteka.di.AppContainer
 
-@HiltAndroidApp
-class App : Application()
+class App : Application() {
+    val appContainer = AppContainer()
+}

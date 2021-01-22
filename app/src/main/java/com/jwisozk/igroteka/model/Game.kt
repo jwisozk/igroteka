@@ -1,3 +1,10 @@
 package com.jwisozk.igroteka.model
 
-data class Game(val id: Int, val name: String, val thumbnail: String?)
+import com.squareup.moshi.Json
+
+data class Game(
+    val id: Int,
+    val name: String,
+//    @Json(name = "background_image") val thumbnail: String?
+    val thumbnail: String?
+)

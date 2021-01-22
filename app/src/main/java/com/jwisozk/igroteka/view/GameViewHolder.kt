@@ -1,6 +1,8 @@
 package com.jwisozk.igroteka.view
 
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.jwisozk.igroteka.R
 import com.jwisozk.igroteka.databinding.ItemGameBinding
 import com.jwisozk.igroteka.model.Game
@@ -36,6 +38,13 @@ class GameViewHolder(private val binding: ItemGameBinding) : RecyclerView.ViewHo
     }
 
     private fun setThumbnail(game: Game) {
+//        Glide.with(binding.gameThumbnail.context)
+//            .load(game.thumbnail)
+//            .apply(
+//                RequestOptions()
+//                .placeholder(R.drawable.ph_game)
+//                .error(R.drawable.ph_game))
+//            .into(binding.gameThumbnail)
         Picasso.get()
             .load(game.thumbnail)
             .placeholder(R.drawable.ph_game)
