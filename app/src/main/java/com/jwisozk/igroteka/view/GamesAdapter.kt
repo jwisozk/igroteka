@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.jwisozk.igroteka.databinding.ItemGameBinding
 import com.jwisozk.igroteka.model.Game
 
-class GamesAdapter(private val listener: (Game) -> Unit): ListAdapter<Game, GameViewHolder>(
+class GamesAdapter(private val listener: (Game) -> Unit) : ListAdapter<Game, GameViewHolder>(
     DIFF_CALLBACK
 ) {
 

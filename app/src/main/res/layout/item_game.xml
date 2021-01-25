@@ -2,25 +2,28 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="150dp"
+    android:layout_width="wrap_content"
     android:layout_height="250dp"
+    android:layout_marginBottom="16dp"
     app:cardBackgroundColor="@color/accentColor"
     app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/main"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        tools:context=".view.GamesFragment">
 
         <ImageView
             android:id="@+id/gameThumbnail"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="180dp"
             android:contentDescription="@string/content_game_poster"
             android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="H,2:3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
             tools:src="@drawable/ph_game" />
 
         <LinearLayout
@@ -88,14 +91,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:maxLines="2"
             android:paddingHorizontal="8dp"
             android:text="@string/content_game_title"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/platformsLogos" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

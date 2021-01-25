@@ -2,7 +2,6 @@ package com.jwisozk.igroteka
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import com.jwisozk.igroteka.util.KeyboardResetByClickOutside
 
@@ -19,5 +18,4 @@ class MainActivity : AppCompatActivity() {
         keyboardResetByClickOutside.onDispatchTouchEvent(event, currentFocus)
         return super.dispatchTouchEvent(event)
     }
-
 }

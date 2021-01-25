@@ -10,7 +10,8 @@
 
     <color name="mainColorBackground">#FF172B37</color>
     <color name="statusBarColorBackground">#FF172B37</color>
-    <color name="accentColor">#FF202020</color>
+    <color name="accentColor">#183D53</color>
+    <color name="textColorPrimary">#C7000000</color>
     <color name="textColorSecondary">#94000000</color>
 
 </resources>

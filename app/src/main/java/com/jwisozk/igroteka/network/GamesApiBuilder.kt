@@ -6,6 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class GamesApiBuilder {
+
     private val baseUrl = "https://api.rawg.io/api/"
 
     private val moshi = Moshi.Builder()
@@ -17,6 +18,7 @@ class GamesApiBuilder {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
-    val retrofitService : GamesApiService by lazy {
-        retrofit.create(GamesApiService::class.java) }
+    val retrofitService: GamesApiService by lazy {
+        retrofit.create(GamesApiService::class.java)
+    }
 }

@@ -5,6 +5,11 @@
     <string name="content_game_title">Cossacks: Back to War</string>
     <string name="content_game_release_date">Release date:</string>
     <string name="content_game_date">May 23, 2020</string>
+    <string name="error_unknown_on_download">Unexpected error while trying to fetch games!</string>
+    <string name="games_placeholder">Type the game name and press the search button</string>
+    <string name="search_error">Something went wrong when downloading games. Please, check your connection and try again!</string>
+    <string name="empty_result">No results matching your query!</string>
+    <string name="search_button">Search button</string>
 
     <string name="windows_logo">Windows logo</string>
     <string name="playstation_logo">Playstation logo</string>

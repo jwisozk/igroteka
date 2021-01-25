@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="cornerRadius">10dp</dimen>
-    <dimen name="itemsDist">19dp</dimen>
+    <dimen name="itemsDist">20dp</dimen>
     <dimen name="gameThumbnailPadding">40dp</dimen>
 </resources>

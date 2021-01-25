@@ -6,13 +6,12 @@ import com.bumptech.glide.request.RequestOptions
 import com.jwisozk.igroteka.R
 import com.jwisozk.igroteka.databinding.ItemGameBinding
 import com.jwisozk.igroteka.model.Game
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Transformation
-import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
+import jp.wasabeef.glide.transformations.BitmapTransformation
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 class GameViewHolder(private val binding: ItemGameBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    private val transformation: Transformation
+    private val transformation: BitmapTransformation
 
     init {
         val dimension = itemView.resources.getDimension(R.dimen.cornerRadius)
@@ -26,31 +25,26 @@ class GameViewHolder(private val binding: ItemGameBinding) : RecyclerView.ViewHo
         setClickListener(listener, game)
     }
 
-    private fun setClickListener(
-        listener: (Game) -> Unit,
-        game: Game
-    ) {
-        itemView.setOnClickListener { listener(game) }
-    }
-
     private fun setName(game: Game) {
         binding.gameName.text = game.name
     }
 
+    private fun setClickListener(listener: (Game) -> Unit, game: Game) {
+        itemView.setOnClickListener {
+            listener(game)
+        }
+    }
+
     private fun setThumbnail(game: Game) {
-//        Glide.with(binding.gameThumbnail.context)
-//            .load(game.thumbnail)
-//            .apply(
-//                RequestOptions()
-//                .placeholder(R.drawable.ph_game)
-//                .error(R.drawable.ph_game))
-//            .into(binding.gameThumbnail)
-        Picasso.get()
+        Glide.with(binding.gameThumbnail.context)
             .load(game.thumbnail)
-            .placeholder(R.drawable.ph_game)
-            .error(R.drawable.ph_game)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.ph_game)
+                    .error(R.drawable.ph_game)
+            )
             .transform(transformation)
-            .fit()
+            .fitCenter()
             .centerCrop()
             .into(binding.gameThumbnail)
     }
