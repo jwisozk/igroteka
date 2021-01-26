@@ -7,7 +7,7 @@ import com.jwisozk.igroteka.R
 import com.jwisozk.igroteka.databinding.ItemGameBinding
 import com.jwisozk.igroteka.model.Game
 import jp.wasabeef.glide.transformations.BitmapTransformation
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 class GameViewHolder(private val binding: ItemGameBinding) : RecyclerView.ViewHolder(binding.root) {
 

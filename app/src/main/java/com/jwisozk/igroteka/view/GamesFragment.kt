@@ -2,7 +2,6 @@ package com.jwisozk.igroteka.view
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -75,8 +74,12 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                 }
                 return@setOnEditorActionListener false
             }
-            viewModel.searchResult.observe(viewLifecycleOwner, Observer { handleGamesList(it) })
-            viewModel.searchState.observe(viewLifecycleOwner, Observer { handleLoadingState(it) })
+            viewModel.searchResult.observe(viewLifecycleOwner, {
+                handleGamesList(it)
+            })
+            viewModel.searchState.observe(viewLifecycleOwner, {
+                handleLoadingState(it)
+            })
 
         } ?: throw IllegalStateException("Binding is null in InputFragment")
     }
