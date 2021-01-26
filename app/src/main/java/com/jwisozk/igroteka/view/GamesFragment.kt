@@ -126,9 +126,10 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
     }
 
     private fun setCountGames(count: Int) {
-        binding?.searchInput?.hint = "${getString(R.string.hint_search_query_search)} " +
-                String.format("%,d", count) +
-                " ${getString(R.string.hint_search_query_games)}"
+        binding?.searchInput?.hint = String.format("%s %s %s",
+            getString(R.string.hint_search_query_search),
+            String.format("%,d", count),
+            getString(R.string.hint_search_query_games))
     }
 
     override fun onDestroyView() {
