@@ -6,6 +6,14 @@ import kotlinx.coroutines.launch
 
 class GamesViewModel(val gamesRepository: GamesRepository) : ViewModel() {
 
+    private val _countGames = MutableLiveData<Int>()
+
+    init {
+        viewModelScope.launch {
+            _countGames.value = gamesRepository.getCountGames()
+        }
+    }
+
     private val _searchState = MutableLiveData<SearchState>()
     private val _searchResult = MutableLiveData<GamesResult>()
 
@@ -35,6 +43,9 @@ class GamesViewModel(val gamesRepository: GamesRepository) : ViewModel() {
 
     val searchState: LiveData<SearchState>
         get() = _searchState
+
+    val countGames: LiveData<Int>
+        get() = _countGames
 
     @Suppress("UNCHECKED_CAST")
     class Factory(private val repo: GamesRepository) :

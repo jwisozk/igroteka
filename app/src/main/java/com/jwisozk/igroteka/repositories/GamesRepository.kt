@@ -13,4 +13,9 @@ class GamesRepository(private val gamesApiService: GamesApiService) {
             .map { Game(it.id, it.name, it.posterPath) }
             .toList()
     }
+
+    suspend fun getCountGames(): Int {
+        return gamesApiService
+            .getCountGames(apiKey = GamesApiBuilder.API_KEY).count
+    }
 }

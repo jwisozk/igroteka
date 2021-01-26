@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Igroteka</string>
-    <string name="hint_search_query">Search 491,352 games</string>
+    <string name="hint_search_query">Search 491 352 games</string>
+    <string name="hint_search_query_search">Search</string>
+    <string name="hint_search_query_games">games</string>
     <string name="content_game_poster">Game poster</string>
     <string name="content_game_title">Cossacks: Back to War</string>
     <string name="content_game_release_date">Release date:</string>

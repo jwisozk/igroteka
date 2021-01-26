@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jwisozk.igroteka.App
@@ -80,6 +79,9 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
             viewModel.searchState.observe(viewLifecycleOwner, {
                 handleLoadingState(it)
             })
+            viewModel.countGames.observe(viewLifecycleOwner, {
+                setCountGames(it)
+            })
 
         } ?: throw IllegalStateException("Binding is null in InputFragment")
     }
@@ -121,6 +123,12 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                 binding?.gamesPlaceholder?.setText(R.string.games_placeholder)
             }
         }
+    }
+
+    private fun setCountGames(count: Int) {
+        binding?.searchInput?.hint = "${getString(R.string.hint_search_query_search)} " +
+                String.format("%,d", count) +
+                " ${getString(R.string.hint_search_query_games)}"
     }
 
     override fun onDestroyView() {
