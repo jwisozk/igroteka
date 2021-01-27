@@ -9,6 +9,7 @@
     <string name="content_game_date">May 23, 2020</string>
     <string name="error_unknown_on_download">Unexpected error while trying to fetch games!</string>
     <string name="games_placeholder">Type the game name and press the search button</string>
+    <string name="count_games_error">Something went wrong when receiving count games. Please, check your connection and try again!</string>
     <string name="search_error">Something went wrong when downloading games. Please, check your connection and try again!</string>
     <string name="empty_result">No results matching your query!</string>
     <string name="search_button">Search button</string>

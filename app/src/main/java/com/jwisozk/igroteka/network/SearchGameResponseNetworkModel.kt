@@ -2,7 +2,7 @@ package com.jwisozk.igroteka.network
 
 import com.squareup.moshi.Json
 
-class SearchGameResponse(
+class SearchGameResponseNetworkModel(
     val count: Int,
     val next: String?,
     @Json(name = "results")

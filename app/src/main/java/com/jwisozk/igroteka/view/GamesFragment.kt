@@ -2,6 +2,7 @@ package com.jwisozk.igroteka.view
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -15,6 +16,8 @@ import com.jwisozk.igroteka.databinding.FragmentGamesBinding
 import com.jwisozk.igroteka.util.GridSpacingItemDecoration
 import com.jwisozk.igroteka.util.hideKeyboard
 import com.jwisozk.igroteka.viewmodel.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class GamesFragment : Fragment(R.layout.fragment_games) {
@@ -53,6 +56,7 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun initListeners() {
         binding?.let { _binding ->
             viewModel = (requireActivity().application as App).appContainer.getGamesViewModel(this)
@@ -67,60 +71,63 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                 ) {
                     v.hideKeyboard()
                     lifecycleScope.launch {
-                        viewModel.sendSearchQuery(v.text.toString())
+                        viewModel.sendSearchGamesQuery(v.text.toString())
                     }
                     return@setOnEditorActionListener true
                 }
                 return@setOnEditorActionListener false
             }
-            viewModel.searchResult.observe(viewLifecycleOwner, {
-                handleGamesList(it)
-            })
-            viewModel.searchState.observe(viewLifecycleOwner, {
-                handleLoadingState(it)
-            })
-            viewModel.countGames.observe(viewLifecycleOwner, {
-                setCountGames(it)
-            })
+            lifecycleScope.launchWhenStarted {
+                viewModel.countGamesUiState.collect {
+                    handleCountGamesUiState(it)
+                }
+            }
+            lifecycleScope.launchWhenStarted {
+                viewModel.gamesUiState.collect {
+                    handleGamesUiState(it)
+                }
+            }
 
-        } ?: throw IllegalStateException("Binding is null in InputFragment")
+        } ?: throw IllegalStateException("Binding is null in GamesFragment")
     }
 
-    private fun handleLoadingState(it: SearchState) {
-        when (it) {
-            Loading -> {
-                binding?.searchProgress?.visibility = View.VISIBLE
+    private fun handleCountGamesUiState(gamesUiState: GamesUiState) {
+        when (gamesUiState) {
+            is GamesUiState.Success -> {
+                setCountGames(gamesUiState.searchGameResponse.count)
             }
-            Ready -> {
-                binding?.searchProgress?.visibility = View.GONE
+            is GamesUiState.Error -> {
+                binding?.gamesPlaceholder?.setText(R.string.count_games_error)
+            }
+            is GamesUiState.Loading -> {
+                handleLoadingVisible(!gamesUiState.isLoading)
             }
         }
     }
 
-    private fun handleGamesList(it: GamesResult) {
-        when (it) {
-            is ValidResult -> {
+    private fun handleGamesUiState(gamesUiState: GamesUiState) {
+        when (gamesUiState) {
+            is GamesUiState.Success -> {
                 binding?.gamesPlaceholder?.visibility = View.GONE
                 binding?.gamesList?.visibility = View.VISIBLE
-                gamesAdapter.submitList(it.result)
+                gamesAdapter.submitList(gamesUiState.searchGameResponse.games)
             }
-            is ErrorResult -> {
-                gamesAdapter.submitList(emptyList())
-                binding?.gamesPlaceholder?.visibility = View.VISIBLE
-                binding?.gamesList?.visibility = View.GONE
+            is GamesUiState.Error -> {
                 binding?.gamesPlaceholder?.setText(R.string.search_error)
             }
-            is EmptyResult -> {
-                gamesAdapter.submitList(emptyList())
-                binding?.gamesPlaceholder?.visibility = View.VISIBLE
-                binding?.gamesList?.visibility = View.GONE
-                binding?.gamesPlaceholder?.setText(R.string.empty_result)
+            is GamesUiState.Loading -> {
+                handleLoadingVisible(!gamesUiState.isLoading)
             }
-            is EmptyQuery -> {
-                gamesAdapter.submitList(emptyList())
-                binding?.gamesPlaceholder?.visibility = View.VISIBLE
-                binding?.gamesList?.visibility = View.GONE
-                binding?.gamesPlaceholder?.setText(R.string.games_placeholder)
+        }
+    }
+
+    private fun handleLoadingVisible(isLoading: Boolean) {
+        when (isLoading) {
+            true -> {
+                binding?.searchProgress?.visibility = View.VISIBLE
+            }
+            false -> {
+                binding?.searchProgress?.visibility = View.GONE
             }
         }
     }

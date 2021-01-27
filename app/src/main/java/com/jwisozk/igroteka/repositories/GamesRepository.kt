@@ -1,21 +1,15 @@
 package com.jwisozk.igroteka.repositories
 
-import com.jwisozk.igroteka.model.Game
+import com.jwisozk.igroteka.model.SearchGameResponse
 import com.jwisozk.igroteka.network.GamesApiBuilder
 import com.jwisozk.igroteka.network.GamesApiService
+import com.jwisozk.igroteka.network.SearchGameResponseMapper
 
 class GamesRepository(private val gamesApiService: GamesApiService) {
 
-    suspend fun searchGames(query: String, page: Int = 1): List<Game> {
-        return gamesApiService
+    suspend fun searchGames(query: String = "", page: Int = 1): SearchGameResponse {
+        val searchGameResponseNetworkModel = gamesApiService
             .searchGame(apiKey = GamesApiBuilder.API_KEY, query = query, page = page)
-            .games
-            .map { Game(it.id, it.name, it.posterPath) }
-            .toList()
-    }
-
-    suspend fun getCountGames(): Int {
-        return gamesApiService
-            .getCountGames(apiKey = GamesApiBuilder.API_KEY).count
+        return SearchGameResponseMapper().map(searchGameResponseNetworkModel)
     }
 }

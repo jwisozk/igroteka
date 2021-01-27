@@ -10,10 +10,5 @@ interface GamesApiService {
         @Query("key") apiKey: String,
         @Query("search") query: String,
         @Query("page") page: Int = 1
-    ): SearchGameResponse
-
-    @GET("games")
-    suspend fun getCountGames(
-        @Query("key") apiKey: String,
-    ): SearchGameResponse
+    ): SearchGameResponseNetworkModel
 }

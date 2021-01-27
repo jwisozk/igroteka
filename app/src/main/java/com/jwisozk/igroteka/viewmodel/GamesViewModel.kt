@@ -1,51 +1,42 @@
 package com.jwisozk.igroteka.viewmodel
 
 import androidx.lifecycle.*
+import com.jwisozk.igroteka.model.SearchGameResponse
 import com.jwisozk.igroteka.repositories.GamesRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class GamesViewModel(val gamesRepository: GamesRepository) : ViewModel() {
 
-    private val _countGames = MutableLiveData<Int>()
+    private val gamesUiStatePlug: GamesUiState = GamesUiState.Success(SearchGameResponse())
+
+    private val _countGamesUiState = MutableStateFlow(gamesUiStatePlug)
+    val countGamesUiState: StateFlow<GamesUiState> = _countGamesUiState
+
+    private val _gamesUiState = MutableStateFlow(gamesUiStatePlug)
+    val gamesUiState: StateFlow<GamesUiState> = _gamesUiState
 
     init {
         viewModelScope.launch {
-            _countGames.value = gamesRepository.getCountGames()
+            sendSearchGamesQuery("", _countGamesUiState)
         }
     }
 
-    private val _searchState = MutableLiveData<SearchState>()
-    private val _searchResult = MutableLiveData<GamesResult>()
-
-    suspend fun sendSearchQuery(query: String) {
-        viewModelScope.launch {
-            _searchState.value = Loading
-            if (query.trim().isEmpty()) {
-                _searchResult.value = EmptyQuery
-            } else {
-                try {
-                    val result = gamesRepository.searchGames(query)
-                    if (result.isEmpty()) {
-                        _searchResult.value = EmptyResult
-                    } else {
-                        _searchResult.value = ValidResult(result)
-                    }
-                } catch (e: Throwable) {
-                    _searchResult.value = ErrorResult
-                }
-            }
-            _searchState.value = Ready
+    suspend fun sendSearchGamesQuery(
+        query: String,
+        _uiState: MutableStateFlow<GamesUiState> = _gamesUiState
+    ) {
+        _uiState.value = GamesUiState.Loading(false)
+        try {
+            _uiState.value = GamesUiState.Success(gamesRepository.searchGames(query))
+        } catch (e: Throwable) {
+            _uiState.value = GamesUiState.Error(e)
         }
+        _uiState.value = GamesUiState.Loading(true)
     }
-
-    val searchResult: LiveData<GamesResult>
-        get() = _searchResult
-
-    val searchState: LiveData<SearchState>
-        get() = _searchState
-
-    val countGames: LiveData<Int>
-        get() = _countGames
 
     @Suppress("UNCHECKED_CAST")
     class Factory(private val repo: GamesRepository) :
