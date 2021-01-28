@@ -9,6 +9,6 @@ interface GamesApiService {
     suspend fun searchGame(
         @Query("key") apiKey: String,
         @Query("search") query: String,
-        @Query("page") page: Int = 1
+        @Query("page") page: Int,
     ): SearchGameResponseNetworkModel
 }

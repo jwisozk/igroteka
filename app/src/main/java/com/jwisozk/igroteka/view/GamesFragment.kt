@@ -7,8 +7,9 @@ import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jwisozk.igroteka.App
 import com.jwisozk.igroteka.R
@@ -23,9 +24,11 @@ import kotlinx.coroutines.launch
 class GamesFragment : Fragment(R.layout.fragment_games) {
 
     private var binding: FragmentGamesBinding? = null
+    @ExperimentalCoroutinesApi
     private lateinit var viewModel: GamesViewModel
     private lateinit var gamesAdapter: GamesAdapter
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init(view)
@@ -33,6 +36,7 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
     }
 
     private fun init(view: View) {
+        Log.d("debug", "GamesFragment init: ")
         binding = FragmentGamesBinding.bind(view)
         binding?.gamesList?.apply {
             // Set span count depending on layout
@@ -41,9 +45,12 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                 else -> 2
             }
             layoutManager = GridLayoutManager(activity, spanCount)
-            gamesAdapter = GamesAdapter {
+            gamesAdapter = GamesAdapter { game ->
                 // show DetailFragment
-                Toast.makeText(this@GamesFragment.context, it.name, Toast.LENGTH_SHORT).show()
+                val bundle = bundleOf(GameDetailFragment.GAME_ARG to game)
+//                val action = GamesFragmentDirections.actionGamesFragmentToGameDetailFragment()
+                requireView().findNavController().navigate(R.id.action_gamesFragment_to_gameDetailFragment, bundle)
+//                Toast.makeText(this@GamesFragment.context, it.name, Toast.LENGTH_SHORT).show()
             }
             adapter = gamesAdapter
             addItemDecoration(
@@ -108,9 +115,14 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
     private fun handleGamesUiState(gamesUiState: GamesUiState) {
         when (gamesUiState) {
             is GamesUiState.Success -> {
-                binding?.gamesPlaceholder?.visibility = View.GONE
-                binding?.gamesList?.visibility = View.VISIBLE
-                gamesAdapter.submitList(gamesUiState.searchGameResponse.games)
+                if (gamesUiState.searchGameResponse.games.isNotEmpty()) {
+                    binding?.gamesPlaceholder?.visibility = View.GONE
+                    binding?.gamesList?.visibility = View.VISIBLE
+                    gamesAdapter.submitList(gamesUiState.searchGameResponse.games)
+                } else {
+                    binding?.gamesList?.visibility = View.GONE
+                    binding?.gamesPlaceholder?.visibility = View.VISIBLE
+                }
             }
             is GamesUiState.Error -> {
                 binding?.gamesPlaceholder?.setText(R.string.search_error)

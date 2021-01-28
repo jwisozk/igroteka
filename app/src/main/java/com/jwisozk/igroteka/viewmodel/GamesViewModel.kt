@@ -31,19 +31,10 @@ class GamesViewModel(val gamesRepository: GamesRepository) : ViewModel() {
     ) {
         _uiState.value = GamesUiState.Loading(false)
         try {
-            _uiState.value = GamesUiState.Success(gamesRepository.searchGames(query))
+            _uiState.value = GamesUiState.Success(gamesRepository.searchGames(query, 1))
         } catch (e: Throwable) {
             _uiState.value = GamesUiState.Error(e)
         }
         _uiState.value = GamesUiState.Loading(true)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    class Factory(private val repo: GamesRepository) :
-        ViewModelProvider.NewInstanceFactory() {
-
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return GamesViewModel(gamesRepository = repo) as T
-        }
     }
 }
