@@ -9,9 +9,10 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jwisozk.igroteka.App
+import com.jwisozk.igroteka.MainActivity
 import com.jwisozk.igroteka.R
 import com.jwisozk.igroteka.databinding.FragmentGamesBinding
 import com.jwisozk.igroteka.util.GridSpacingItemDecoration
@@ -20,6 +21,7 @@ import com.jwisozk.igroteka.viewmodel.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+
 
 class GamesFragment : Fragment(R.layout.fragment_games) {
 
@@ -47,9 +49,11 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
             layoutManager = GridLayoutManager(activity, spanCount)
             gamesAdapter = GamesAdapter { game ->
                 // show DetailFragment
-                val bundle = bundleOf(GameDetailFragment.GAME_ARG to game)
+//                val bundle = bundleOf(GameDetailFragment.ARG_GAME to game)
+                (requireActivity() as MainActivity).transitionToGameDetailFragment(game)
+//                setFragmentResult(GameDetailFragment.REQUEST_KEY, bundle)
 //                val action = GamesFragmentDirections.actionGamesFragmentToGameDetailFragment()
-                requireView().findNavController().navigate(R.id.action_gamesFragment_to_gameDetailFragment, bundle)
+//                requireView().findNavController().navigate(R.id.action_gamesFragment_to_gameDetailFragment, bundle)
 //                Toast.makeText(this@GamesFragment.context, it.name, Toast.LENGTH_SHORT).show()
             }
             adapter = gamesAdapter

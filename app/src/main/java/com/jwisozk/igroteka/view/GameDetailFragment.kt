@@ -1,15 +1,10 @@
 package com.jwisozk.igroteka.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.fragment.navArgs
 import com.jwisozk.igroteka.R
 import com.jwisozk.igroteka.databinding.FragmentGameDetailBinding
-import com.jwisozk.igroteka.databinding.FragmentGamesBinding
 import com.jwisozk.igroteka.model.Game
 
 class GameDetailFragment : Fragment(R.layout.fragment_game_detail) {
@@ -23,7 +18,7 @@ class GameDetailFragment : Fragment(R.layout.fragment_game_detail) {
 
     private fun init(view: View) {
         binding = FragmentGameDetailBinding.bind(view)
-        val game = arguments?.getParcelable<Game>(GAME_ARG)
+        val game = arguments?.getParcelable<Game>(ARG_GAME)
         game?.let {
             binding?.gameName?.text = it.name
         }
@@ -35,6 +30,16 @@ class GameDetailFragment : Fragment(R.layout.fragment_game_detail) {
     }
 
     companion object {
-        val GAME_ARG = "game arg"
+//        val BUNDLE_KEY = "gameDetailBundleKey"
+//        val REQUEST_KEY = "gameDetailRequestKey"
+        private const val ARG_GAME = "argGame"
+
+        @JvmStatic
+        fun newInstance(game: Game) =
+            GameDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_GAME, game)
+                }
+            }
     }
 }
