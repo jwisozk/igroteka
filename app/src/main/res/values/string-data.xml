@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="url_server_api" translatable="false">"https://api.rawg.io/api/"</string>
+    <string name="api_key" translatable="false">"51801b6d654043e29e6544a9d728b636"</string>
+</resources>

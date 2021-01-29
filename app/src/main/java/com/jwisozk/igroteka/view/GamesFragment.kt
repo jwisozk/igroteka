@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 class GamesFragment : Fragment(R.layout.fragment_games) {
 
     private var binding: FragmentGamesBinding? = null
+
     @ExperimentalCoroutinesApi
     private lateinit var viewModel: GamesViewModel
     private lateinit var gamesAdapter: GamesAdapter
@@ -89,13 +90,17 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                 return@setOnEditorActionListener false
             }
             lifecycleScope.launchWhenStarted {
-                viewModel.countGamesUiState.collect {
-                    handleCountGamesUiState(it)
+                viewModel.countGamesUiState.collect { gamesUiState ->
+                    if (gamesUiState == null)
+                        return@collect
+                    handleCountGamesUiState(gamesUiState)
                 }
             }
             lifecycleScope.launchWhenStarted {
-                viewModel.gamesUiState.collect {
-                    handleGamesUiState(it)
+                viewModel.gamesUiState.collect { gamesUiState ->
+                    if (gamesUiState == null)
+                        return@collect
+                    handleGamesUiState(gamesUiState)
                 }
             }
 
@@ -108,6 +113,7 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                 setCountGames(gamesUiState.searchGameResponse.count)
             }
             is GamesUiState.Error -> {
+                binding?.gamesPlaceholder?.visibility = View.VISIBLE
                 binding?.gamesPlaceholder?.setText(R.string.count_games_error)
             }
             is GamesUiState.Loading -> {
@@ -117,18 +123,22 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
     }
 
     private fun handleGamesUiState(gamesUiState: GamesUiState) {
+        Log.d("debug", "handleGamesUiState: 0")
         when (gamesUiState) {
             is GamesUiState.Success -> {
                 if (gamesUiState.searchGameResponse.games.isNotEmpty()) {
+                    Log.d("debug", "handleGamesUiState: 1")
                     binding?.gamesPlaceholder?.visibility = View.GONE
                     binding?.gamesList?.visibility = View.VISIBLE
                     gamesAdapter.submitList(gamesUiState.searchGameResponse.games)
                 } else {
+                    Log.d("debug", "handleGamesUiState: 2")
                     binding?.gamesList?.visibility = View.GONE
                     binding?.gamesPlaceholder?.visibility = View.VISIBLE
                 }
             }
             is GamesUiState.Error -> {
+                binding?.gamesPlaceholder?.visibility = View.VISIBLE
                 binding?.gamesPlaceholder?.setText(R.string.search_error)
             }
             is GamesUiState.Loading -> {
@@ -149,10 +159,12 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
     }
 
     private fun setCountGames(count: Int) {
-        binding?.searchInput?.hint = String.format("%s %s %s",
+        binding?.searchInput?.hint = String.format(
+            "%s %s %s",
             getString(R.string.hint_search_query_search),
             String.format("%,d", count),
-            getString(R.string.hint_search_query_games))
+            getString(R.string.hint_search_query_games)
+        )
     }
 
     override fun onDestroyView() {

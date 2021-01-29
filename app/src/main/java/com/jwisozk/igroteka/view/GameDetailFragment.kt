@@ -30,8 +30,6 @@ class GameDetailFragment : Fragment(R.layout.fragment_game_detail) {
     }
 
     companion object {
-//        val BUNDLE_KEY = "gameDetailBundleKey"
-//        val REQUEST_KEY = "gameDetailRequestKey"
         private const val ARG_GAME = "argGame"
 
         @JvmStatic

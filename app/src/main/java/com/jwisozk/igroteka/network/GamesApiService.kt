@@ -7,8 +7,12 @@ interface GamesApiService {
 
     @GET("games")
     suspend fun searchGame(
-        @Query("key") apiKey: String,
+        @Query(API_KEY) apiKey: String? = null,
         @Query("search") query: String,
         @Query("page") page: Int,
     ): SearchGameResponseNetworkModel
+
+    companion object {
+        const val API_KEY = "key"
+    }
 }
