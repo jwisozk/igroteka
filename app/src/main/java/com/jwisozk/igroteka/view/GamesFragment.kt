@@ -48,12 +48,7 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
             layoutManager = GridLayoutManager(activity, spanCount)
             gamesAdapter = GamesAdapter { game ->
                 // show DetailFragment
-//                val bundle = bundleOf(GameDetailFragment.ARG_GAME to game)
                 (requireActivity() as MainActivity).transitionToGameDetailFragment(game)
-//                setFragmentResult(GameDetailFragment.REQUEST_KEY, bundle)
-//                val action = GamesFragmentDirections.actionGamesFragmentToGameDetailFragment()
-//                requireView().findNavController().navigate(R.id.action_gamesFragment_to_gameDetailFragment, bundle)
-//                Toast.makeText(this@GamesFragment.context, it.name, Toast.LENGTH_SHORT).show()
             }
             adapter = gamesAdapter
             addItemDecoration(
