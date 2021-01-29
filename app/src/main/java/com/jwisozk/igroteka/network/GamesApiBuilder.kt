@@ -1,6 +1,7 @@
 package com.jwisozk.igroteka.network
 
 import android.content.res.Resources
+import android.util.Log
 import com.jwisozk.igroteka.R
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -21,7 +22,7 @@ class GamesApiBuilder(resources: Resources) {
         .build()
 
     private val client = OkHttpClient().newBuilder()
-        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        .addInterceptor(createLoggingInterceptor())
         .addInterceptor(GamesApiKeyInterceptor(apiKey))
         .build()
 
@@ -33,5 +34,14 @@ class GamesApiBuilder(resources: Resources) {
 
     val retrofitService: GamesApiService by lazy {
         retrofit.create()
+    }
+
+    private fun createLoggingInterceptor(): HttpLoggingInterceptor {
+        val httpLogger = HttpLoggingInterceptor.Logger { message ->
+            Log.d(OkHttpClient::class.java.name, message)
+        }
+        val loggingInterceptor = HttpLoggingInterceptor(httpLogger)
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        return loggingInterceptor
     }
 }

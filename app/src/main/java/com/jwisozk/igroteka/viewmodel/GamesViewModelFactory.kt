@@ -11,7 +11,7 @@ class GamesViewModelFactory(private val repo: GamesRepository) :
 
     @ExperimentalCoroutinesApi
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return when (modelClass){
+        return when (modelClass) {
             GamesViewModel::class.java -> GamesViewModel(gamesRepository = repo) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

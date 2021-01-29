@@ -7,9 +7,7 @@ import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
-import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jwisozk.igroteka.App
 import com.jwisozk.igroteka.MainActivity

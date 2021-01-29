@@ -4,12 +4,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.jwisozk.igroteka.R
-import com.jwisozk.igroteka.databinding.ItemGameBinding
+import com.jwisozk.igroteka.databinding.ListItemGameBinding
 import com.jwisozk.igroteka.model.Game
 import jp.wasabeef.glide.transformations.BitmapTransformation
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
-class GameViewHolder(private val binding: ItemGameBinding) : RecyclerView.ViewHolder(binding.root) {
+class GameViewHolder(private val binding: ListItemGameBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
     private val transformation: BitmapTransformation
 
