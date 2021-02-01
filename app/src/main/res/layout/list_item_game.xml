@@ -9,7 +9,6 @@
     app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
         android:layout_width="150dp"
         android:layout_height="match_parent"
         tools:context=".view.GamesFragment">
@@ -37,7 +36,6 @@
             app:layout_constraintTop_toBottomOf="@+id/gameThumbnail">
 
             <ImageView
-                android:id="@+id/windows_logo"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="4dp"
@@ -45,7 +43,6 @@
                 app:srcCompat="@drawable/ic_windows_logo" />
 
             <ImageView
-                android:id="@+id/playstation_logo"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="4dp"
@@ -53,7 +50,6 @@
                 app:srcCompat="@drawable/ic_playstation_logo" />
 
             <ImageView
-                android:id="@+id/xbox_logo"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="4dp"
@@ -61,7 +57,6 @@
                 app:srcCompat="@drawable/ic_xbox_logo" />
 
             <ImageView
-                android:id="@+id/android_logo"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="4dp"
@@ -69,7 +64,6 @@
                 app:srcCompat="@drawable/ic_android_logo" />
 
             <ImageView
-                android:id="@+id/apple_logo"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="4dp"
@@ -77,7 +71,6 @@
                 app:srcCompat="@drawable/ic_apple_logo" />
 
             <ImageView
-                android:id="@+id/nintendo_switch_logo"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="4dp"

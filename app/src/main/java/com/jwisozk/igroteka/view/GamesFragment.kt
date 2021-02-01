@@ -2,7 +2,6 @@ package com.jwisozk.igroteka.view
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -17,6 +16,7 @@ import com.jwisozk.igroteka.util.GridSpacingItemDecoration
 import com.jwisozk.igroteka.util.hideKeyboard
 import com.jwisozk.igroteka.viewmodel.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -25,10 +25,12 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
 
     private var binding: FragmentGamesBinding? = null
 
+    @InternalCoroutinesApi
     @ExperimentalCoroutinesApi
     private lateinit var viewModel: GamesViewModel
     private lateinit var gamesAdapter: GamesAdapter
 
+    @InternalCoroutinesApi
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,6 +63,7 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
         }
     }
 
+    @InternalCoroutinesApi
     @ExperimentalCoroutinesApi
     private fun initListeners() {
         binding?.let { _binding ->
@@ -85,6 +88,7 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
         } ?: throw IllegalStateException("Binding is null in GamesFragment")
     }
 
+    @InternalCoroutinesApi
     @ExperimentalCoroutinesApi
     private fun launchCoroutines() {
         lifecycleScope.launchWhenStarted {
@@ -96,6 +100,7 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
         }
     }
 
+    @InternalCoroutinesApi
     @ExperimentalCoroutinesApi
     private fun handleGamesUiState(gamesUiState: GamesUiState) {
         when (gamesUiState) {
@@ -118,6 +123,7 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                 }
             }
             is GamesUiState.Error -> {
+                binding?.gamesList?.visibility = View.GONE
                 binding?.gamesPlaceholder?.visibility = View.VISIBLE
                 binding?.gamesPlaceholder?.setText(R.string.search_error)
             }

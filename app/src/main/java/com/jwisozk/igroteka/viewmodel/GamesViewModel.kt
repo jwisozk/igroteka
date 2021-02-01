@@ -3,10 +3,13 @@ package com.jwisozk.igroteka.viewmodel
 import androidx.lifecycle.*
 import com.jwisozk.igroteka.repositories.GamesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 class GamesViewModel(val gamesRepository: GamesRepository) : ViewModel() {
 
@@ -21,15 +24,17 @@ class GamesViewModel(val gamesRepository: GamesRepository) : ViewModel() {
         }
     }
 
-    suspend fun sendSearchGamesQuery(
-        query: String
-    ) {
-        _gamesUiState.value = GamesUiState.Loading(false)
-        try {
-            _gamesUiState.value = GamesUiState.Success(gamesRepository.searchGames(query, 1))
-        } catch (e: Throwable) {
-            _gamesUiState.value = GamesUiState.Error(e)
+    @InternalCoroutinesApi
+    suspend fun sendSearchGamesQuery(query: String, page: Int = 1) {
+        viewModelScope.launch {
+            gamesRepository.searchGames(query, page).collect { gamesUiStateWrapper ->
+                val gamesUiState = gamesUiStateWrapper.gamesUiState
+                _gamesUiState.value = when (gamesUiState) {
+                    is GamesUiState.Success -> GamesUiState.Success(gamesUiState.searchGameResponse)
+                    is GamesUiState.Error -> GamesUiState.Error(gamesUiState.exception)
+                    is GamesUiState.Loading -> GamesUiState.Loading(gamesUiState.isLoading)
+                }
+            }
         }
-        _gamesUiState.value = GamesUiState.Loading(true)
     }
 }

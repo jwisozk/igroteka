@@ -10,6 +10,7 @@ import com.jwisozk.igroteka.repositories.GamesRepository
 import com.jwisozk.igroteka.viewmodel.GamesViewModel
 import com.jwisozk.igroteka.viewmodel.GamesViewModelFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 
 class AppContainer(resources: Resources) {
 
@@ -22,6 +23,7 @@ class AppContainer(resources: Resources) {
         gamesRepo = GamesRepository(gamesApiTalker, searchGameResponseMapper)
     }
 
+    @InternalCoroutinesApi
     @ExperimentalCoroutinesApi
     fun getGamesViewModel(fragment: Fragment): GamesViewModel {
         return ViewModelProvider(
