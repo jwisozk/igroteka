@@ -32,13 +32,13 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init(view)
+        binding = FragmentGamesBinding.bind(view)
+        init()
         initListeners()
+        launchCoroutines()
     }
 
-    private fun init(view: View) {
-        Log.d("debug", "GamesFragment init: ")
-        binding = FragmentGamesBinding.bind(view)
+    private fun init() {
         binding?.gamesList?.apply {
             // Set span count depending on layout
             val spanCount = when (resources.configuration.orientation) {
@@ -82,50 +82,37 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                 }
                 return@setOnEditorActionListener false
             }
-            lifecycleScope.launchWhenStarted {
-                viewModel.countGamesUiState.collect { gamesUiState ->
-                    if (gamesUiState == null)
-                        return@collect
-                    handleCountGamesUiState(gamesUiState)
-                }
-            }
-            lifecycleScope.launchWhenStarted {
-                viewModel.gamesUiState.collect { gamesUiState ->
-                    if (gamesUiState == null)
-                        return@collect
-                    handleGamesUiState(gamesUiState)
-                }
-            }
-
         } ?: throw IllegalStateException("Binding is null in GamesFragment")
     }
 
-    private fun handleCountGamesUiState(gamesUiState: GamesUiState) {
-        when (gamesUiState) {
-            is GamesUiState.Success -> {
-                setCountGames(gamesUiState.searchGameResponse.count)
-            }
-            is GamesUiState.Error -> {
-                binding?.gamesPlaceholder?.visibility = View.VISIBLE
-                binding?.gamesPlaceholder?.setText(R.string.count_games_error)
-            }
-            is GamesUiState.Loading -> {
-                handleLoadingVisible(!gamesUiState.isLoading)
+    @ExperimentalCoroutinesApi
+    private fun launchCoroutines() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.gamesUiState.collect { gamesUiState ->
+                if (gamesUiState == null)
+                    return@collect
+                handleGamesUiState(gamesUiState)
             }
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun handleGamesUiState(gamesUiState: GamesUiState) {
-        Log.d("debug", "handleGamesUiState: 0")
         when (gamesUiState) {
             is GamesUiState.Success -> {
+                if (!viewModel.isCountGamesReceive) {
+                    binding?.searchInput?.hint = gamesUiState.searchGameResponse.getHintCountGames(
+                        gamesUiState.searchGameResponse.count,
+                        getString(R.string.hint_search_query_search),
+                        getString(R.string.hint_search_query_games)
+                    )
+                    viewModel.isCountGamesReceive = true
+                }
                 if (gamesUiState.searchGameResponse.games.isNotEmpty()) {
-                    Log.d("debug", "handleGamesUiState: 1")
                     binding?.gamesPlaceholder?.visibility = View.GONE
                     binding?.gamesList?.visibility = View.VISIBLE
                     gamesAdapter.submitList(gamesUiState.searchGameResponse.games)
                 } else {
-                    Log.d("debug", "handleGamesUiState: 2")
                     binding?.gamesList?.visibility = View.GONE
                     binding?.gamesPlaceholder?.visibility = View.VISIBLE
                 }
@@ -149,15 +136,6 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                 binding?.searchProgress?.visibility = View.GONE
             }
         }
-    }
-
-    private fun setCountGames(count: Int) {
-        binding?.searchInput?.hint = String.format(
-            "%s %s %s",
-            getString(R.string.hint_search_query_search),
-            String.format("%,d", count),
-            getString(R.string.hint_search_query_games)
-        )
     }
 
     override fun onDestroyView() {

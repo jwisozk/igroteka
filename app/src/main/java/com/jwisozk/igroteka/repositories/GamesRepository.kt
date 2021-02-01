@@ -11,4 +11,7 @@ class GamesRepository(
 
     suspend fun searchGames(query: String, page: Int): SearchGameResponse =
         searchGameResponseMapper.map(gamesApiTalker.searchGames(query, page))
+
+    // .flow(init)
+    // .catch() -> отлавливать ошибки
 }

@@ -16,6 +16,7 @@ class GamesAdapter(private val gameFrameClickListener: (Game) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
-        holder.bind(getItem(position), gameFrameClickListener)
+        val game = getItem(position)
+        holder.bind(game, gameFrameClickListener)
     }
 }

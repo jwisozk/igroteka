@@ -8,7 +8,7 @@ class GamesApiKeyInterceptor(private val apiKey: String) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val newUrl = originalRequest.url.newBuilder()
-            .addQueryParameter(GamesApiService.API_KEY, apiKey)
+            .addQueryParameter(API_KEY, apiKey)
             .build()
 
         val request = originalRequest.newBuilder()
@@ -16,5 +16,9 @@ class GamesApiKeyInterceptor(private val apiKey: String) : Interceptor {
             .build()
 
         return chain.proceed(request)
+    }
+
+    companion object {
+        const val API_KEY = "key"
     }
 }

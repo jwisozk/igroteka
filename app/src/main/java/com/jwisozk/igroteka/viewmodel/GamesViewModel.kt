@@ -10,32 +10,26 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 class GamesViewModel(val gamesRepository: GamesRepository) : ViewModel() {
 
-    private val _countGamesUiState = MutableStateFlow<GamesUiState?>(null)
-    val countGamesUiState: StateFlow<GamesUiState?> = _countGamesUiState
-
     private val _gamesUiState = MutableStateFlow<GamesUiState?>(null)
     val gamesUiState: StateFlow<GamesUiState?> = _gamesUiState
 
+    var isCountGamesReceive = false
+
     init {
         viewModelScope.launch {
-            sendSearchGamesQuery("", _countGamesUiState, true)
+            sendSearchGamesQuery("")
         }
     }
 
     suspend fun sendSearchGamesQuery(
-        query: String,
-        _uiState: MutableStateFlow<GamesUiState?> = _gamesUiState,
-        isLaunch: Boolean = false
+        query: String
     ) {
-        _uiState.value = GamesUiState.Loading(false)
+        _gamesUiState.value = GamesUiState.Loading(false)
         try {
-            _uiState.value = GamesUiState.Success(gamesRepository.searchGames(query, 1))
-            if (isLaunch) {
-                _gamesUiState.value = _uiState.value
-            }
+            _gamesUiState.value = GamesUiState.Success(gamesRepository.searchGames(query, 1))
         } catch (e: Throwable) {
-            _uiState.value = GamesUiState.Error(e)
+            _gamesUiState.value = GamesUiState.Error(e)
         }
-        _uiState.value = GamesUiState.Loading(true)
+        _gamesUiState.value = GamesUiState.Loading(true)
     }
 }
