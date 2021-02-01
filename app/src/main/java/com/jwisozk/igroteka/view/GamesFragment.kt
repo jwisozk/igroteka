@@ -40,7 +40,13 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
         launchCoroutines()
     }
 
+    @ExperimentalCoroutinesApi
+    @InternalCoroutinesApi
     private fun init() {
+        viewModel = (requireActivity().application as App).appContainer.getGamesViewModel(this)
+        viewModel.hintSearch?.let { hintSearch ->
+            binding?.searchInput?.hint = hintSearch
+        }
         binding?.gamesList?.apply {
             // Set span count depending on layout
             val spanCount = when (resources.configuration.orientation) {
@@ -67,7 +73,6 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
     @ExperimentalCoroutinesApi
     private fun initListeners() {
         binding?.let { _binding ->
-            viewModel = (requireActivity().application as App).appContainer.getGamesViewModel(this)
             _binding.searchInput.setOnFocusChangeListener { v, hasFocus ->
                 if (!hasFocus)
                     v.hideKeyboard()
@@ -105,13 +110,13 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
     private fun handleGamesUiState(gamesUiState: GamesUiState) {
         when (gamesUiState) {
             is GamesUiState.Success -> {
-                if (!viewModel.isCountGamesReceive) {
-                    binding?.searchInput?.hint = gamesUiState.searchGameResponse.getHintCountGames(
+                if (viewModel.hintSearch == null) {
+                    viewModel.hintSearch = gamesUiState.searchGameResponse.getHintCountGames(
                         gamesUiState.searchGameResponse.count,
                         getString(R.string.hint_search_query_search),
                         getString(R.string.hint_search_query_games)
                     )
-                    viewModel.isCountGamesReceive = true
+                    binding?.searchInput?.hint = viewModel.hintSearch
                 }
                 if (gamesUiState.searchGameResponse.games.isNotEmpty()) {
                     binding?.gamesPlaceholder?.visibility = View.GONE

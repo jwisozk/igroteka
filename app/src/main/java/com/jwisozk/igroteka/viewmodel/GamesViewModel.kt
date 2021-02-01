@@ -16,7 +16,7 @@ class GamesViewModel(val gamesRepository: GamesRepository) : ViewModel() {
     private val _gamesUiState = MutableStateFlow<GamesUiState?>(null)
     val gamesUiState: StateFlow<GamesUiState?> = _gamesUiState
 
-    var isCountGamesReceive = false
+    var hintSearch: String? = null
 
     init {
         viewModelScope.launch {
