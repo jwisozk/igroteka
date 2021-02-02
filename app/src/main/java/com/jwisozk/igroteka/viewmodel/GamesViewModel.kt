@@ -18,12 +18,6 @@ class GamesViewModel(val gamesRepository: GamesRepository) : ViewModel() {
 
     var hintSearch: String? = null
 
-    init {
-        viewModelScope.launch {
-            sendSearchGamesQuery("")
-        }
-    }
-
     @InternalCoroutinesApi
     suspend fun sendSearchGamesQuery(query: String, page: Int = 1) {
         viewModelScope.launch {

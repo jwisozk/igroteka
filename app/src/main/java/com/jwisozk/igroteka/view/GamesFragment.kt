@@ -43,30 +43,37 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
     @ExperimentalCoroutinesApi
     @InternalCoroutinesApi
     private fun init() {
-        viewModel = (requireActivity().application as App).appContainer.getGamesViewModel(this)
-        viewModel.hintSearch?.let { hintSearch ->
-            binding?.searchInput?.hint = hintSearch
-        }
-        binding?.gamesList?.apply {
-            // Set span count depending on layout
-            val spanCount = when (resources.configuration.orientation) {
-                Configuration.ORIENTATION_LANDSCAPE -> 4
-                else -> 2
+        binding?.let { _binding ->
+            viewModel = (requireActivity().application as App).appContainer.getGamesViewModel(this)
+            lifecycleScope.launch {
+                if (viewModel.hintSearch == null) {
+                    viewModel.sendSearchGamesQuery("")
+                }
             }
-            layoutManager = GridLayoutManager(activity, spanCount)
-            gamesAdapter = GamesAdapter { game ->
-                // show DetailFragment
-                (requireActivity() as MainActivity).transitionToGameDetailFragment(game)
+            viewModel.hintSearch?.let { hintSearch ->
+                binding?.searchInput?.hint = hintSearch
             }
-            adapter = gamesAdapter
-            addItemDecoration(
-                GridSpacingItemDecoration(
-                    spanCount,
-                    resources.getDimension(R.dimen.itemsDist).toInt(),
-                    true
+            _binding.gamesList.apply {
+                // Set span count depending on layout
+                val spanCount = when (resources.configuration.orientation) {
+                    Configuration.ORIENTATION_LANDSCAPE -> resources.getInteger(R.integer.four_columns)
+                    else -> resources.getInteger(R.integer.two_columns)
+                }
+                layoutManager = GridLayoutManager(activity, spanCount)
+                gamesAdapter = GamesAdapter { game ->
+                    // show DetailFragment
+                    (requireActivity() as MainActivity).transitionToGameDetailFragment(game)
+                }
+                adapter = gamesAdapter
+                addItemDecoration(
+                    GridSpacingItemDecoration(
+                        spanCount,
+                        resources.getDimension(R.dimen.itemsDist).toInt(),
+                        true
+                    )
                 )
-            )
-        }
+            }
+        } ?: throw IllegalStateException("Binding is null in GamesFragment")
     }
 
     @InternalCoroutinesApi
@@ -126,11 +133,13 @@ class GamesFragment : Fragment(R.layout.fragment_games) {
                     binding?.gamesList?.visibility = View.GONE
                     binding?.gamesPlaceholder?.visibility = View.VISIBLE
                 }
+                handleLoadingVisible(false)
             }
             is GamesUiState.Error -> {
                 binding?.gamesList?.visibility = View.GONE
                 binding?.gamesPlaceholder?.visibility = View.VISIBLE
                 binding?.gamesPlaceholder?.setText(R.string.search_error)
+                handleLoadingVisible(false)
             }
             is GamesUiState.Loading -> {
                 handleLoadingVisible(!gamesUiState.isLoading)

@@ -20,10 +20,8 @@ class GamesRepository(
             emit(GamesUiStateWrapper(GamesUiState.Loading(false)))
             val searchGameResponse =
                 searchGameResponseMapper.map(gamesApiTalker.searchGames(query, page))
-            emit(GamesUiStateWrapper(GamesUiState.Loading(true)))
             emit(GamesUiStateWrapper(GamesUiState.Success(searchGameResponse)))
         }.catch { exception ->
-            emit(GamesUiStateWrapper(GamesUiState.Loading(true)))
             emit(GamesUiStateWrapper(GamesUiState.Error(exception)))
         }.flowOn(Dispatchers.IO)
 

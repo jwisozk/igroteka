@@ -76,7 +76,6 @@
                 android:layout_marginEnd="4dp"
                 android:contentDescription="@string/nintendo_switch_logo"
                 app:srcCompat="@drawable/ic_nintendo_switch_logo" />
-
         </LinearLayout>
 
         <TextView
@@ -92,7 +91,5 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/platformsLogos" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>
